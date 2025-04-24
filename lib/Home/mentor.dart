@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/mentorchatscreen.dart';
 import 'package:flutter/material.dart';
 
 class MentorSearchScreen extends StatefulWidget {
@@ -57,14 +58,16 @@ class _MentorSearchScreenState extends State<MentorSearchScreen> {
     },
   ];
 
-  List<Map<String, String>> get filteredMentors {
-    if (searchQuery.isEmpty) return [];
-    return mentors
-        .where((mentor) => mentor['category']!
-            .toLowerCase()
-            .contains(searchQuery.toLowerCase()))
-        .toList();
-  }
+List<Map<String, String>> get filteredMentors {
+  if (searchQuery.isEmpty) return [];
+  return mentors.where((mentor) {
+    final name = mentor['name']!.toLowerCase();
+    final category = mentor['category']!.toLowerCase();
+    final query = searchQuery.toLowerCase();
+    return name.contains(query) || category.contains(query);
+  }).toList();
+}
+
 
   Color c1 = Color.fromRGBO(7, 45, 68, 1);
   Color c2 = Color.fromRGBO(6, 68, 107, 1);
@@ -141,52 +144,64 @@ class _MentorSearchScreenState extends State<MentorSearchScreen> {
 
             // 🔎 Search Results
             Expanded(
-              child: filteredMentors.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: filteredMentors.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundImage:
-                                NetworkImage(filteredMentors[index]['image']!),
-                          ),
-                          title: Text(
-                            filteredMentors[index]['name']!,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, color: c1),
-                          ),
-                          subtitle: Text(
-                            filteredMentors[index]['category']!,
-                            style: TextStyle(color: c2.withOpacity(0.5)),
-                          ),
-                        );
-                      },
-                    )
-                  : Center(
-                      child: searchQuery.isEmpty
-                          ? Text("Search for a course or mentor")
-                          : Text("No results found"),
-                    ),
+             child: filteredMentors.isNotEmpty
+    ? ListView.builder(
+        itemCount: filteredMentors.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundImage:
+                  NetworkImage(filteredMentors[index]['image']!),
+            ),
+            title: Text(
+              filteredMentors[index]['name']!,
+              style: TextStyle(fontWeight: FontWeight.bold, color: c1),
+            ),
+            subtitle: Text(
+              filteredMentors[index]['category']!,
+              style: TextStyle(color: c2.withOpacity(0.5)),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MentorChatScreen(
+                    mentorName: filteredMentors[index]['name']!,
+                    mentorImage: filteredMentors[index]['image']!,
+                    category: filteredMentors[index]['category']!,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      )
+    : Center(
+        child: searchQuery.isEmpty
+            ? Text("Search for a course or mentor")
+            : Text("No results found"),
+      ),
+
             ),
           ],
         ),
       ),
 
-      // ⬇️ Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: c2,
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "HOME"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "MY COURSES"),
-          BottomNavigationBarItem(icon: Icon(Icons.inbox), label: "INBOX"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.receipt), label: "TRANSACTION"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "PROFILE"),
-        ],
-      ),
+      // // ⬇️ Bottom Navigation Bar
+      // bottomNavigationBar: BottomNavigationBar(
+      //   selectedItemColor: c2,
+      //   unselectedItemColor: Colors.grey,
+      //   showUnselectedLabels: true,
+      //   items: [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: "HOME"),
+      //     BottomNavigationBarItem(icon: Icon(Icons.book), label: "MY COURSES"),
+      //     BottomNavigationBarItem(icon: Icon(Icons.inbox), label: "INBOX"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.receipt), label: "TRANSACTION"),
+      //     BottomNavigationBarItem(icon: Icon(Icons.person), label: "PROFILE"),
+      //   ],
+      // ),
     );
   }
 }

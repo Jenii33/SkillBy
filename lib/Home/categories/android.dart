@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class AndroidRoadmapScreen extends StatefulWidget {
@@ -63,8 +64,16 @@ class _AndroidRoadmapScreenState extends State<AndroidRoadmapScreen> {
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Android Development Roadmap"),
@@ -87,6 +96,20 @@ class _AndroidRoadmapScreenState extends State<AndroidRoadmapScreen> {
             ),
             SizedBox(height: 20),
 
+            // Progress
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Colors.green[700],
+            ),
+            SizedBox(height: 20),
+
             // Roadmap Steps
             Expanded(
               child: ListView.builder(
@@ -102,7 +125,7 @@ class _AndroidRoadmapScreenState extends State<AndroidRoadmapScreen> {
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.green
+                            ? Colors.green.shade800
                             : Colors.grey,
                       ),
                       title: Text(
@@ -118,7 +141,7 @@ class _AndroidRoadmapScreenState extends State<AndroidRoadmapScreen> {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.green
+                            ? Colors.green.shade800
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -136,26 +159,40 @@ class _AndroidRoadmapScreenState extends State<AndroidRoadmapScreen> {
             // Enroll Button
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                // Action to enroll in the course
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in Android Development Course!"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.green[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in Android Development Course!"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'Android',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Colors.green[900],
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

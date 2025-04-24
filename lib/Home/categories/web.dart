@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class WebDevelopmentRoadmapScreen extends StatefulWidget {
@@ -72,7 +73,7 @@ class _WebDevelopmentRoadmapScreenState
     return Scaffold(
       appBar: AppBar(
         title: Text("Web Development Roadmap"),
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: const Color.fromARGB(255, 96, 87, 210),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -83,8 +84,6 @@ class _WebDevelopmentRoadmapScreenState
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/web.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "Web Development Learning Path 🌐",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -109,7 +108,7 @@ class _WebDevelopmentRoadmapScreenState
             LinearProgressIndicator(
               value: progress,
               backgroundColor: Colors.grey[300],
-              color: Colors.blueGrey,
+              color: Color.fromARGB(255, 86, 78, 193),
               minHeight: 8,
             ),
             SizedBox(height: 20),
@@ -129,7 +128,7 @@ class _WebDevelopmentRoadmapScreenState
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.green
+                            ? Color.fromARGB(255, 86, 78, 193)
                             : Colors.grey,
                       ),
                       title: Text(
@@ -145,7 +144,7 @@ class _WebDevelopmentRoadmapScreenState
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.green
+                            ? Color.fromARGB(255, 86, 78, 193)
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -162,26 +161,41 @@ class _WebDevelopmentRoadmapScreenState
 
             // Start Learning Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in Web Development Learning Path! 🚀"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.blueGrey[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),  
-            ),
+          ElevatedButton(
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in Web Development Learning Path! 🚀"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'Web Development',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Color.fromARGB(255, 96, 87, 210),
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

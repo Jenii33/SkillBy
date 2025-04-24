@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class SoftwareDevelopmentRoadmapScreen extends StatefulWidget {
@@ -17,25 +18,29 @@ class _SoftwareDevelopmentRoadmapScreenState
     },
     {
       "title": "Frontend Development",
-      "description": "HTML, CSS, JavaScript, and frontend frameworks like React.",
+      "description":
+          "HTML, CSS, JavaScript, and frontend frameworks like React.",
       "icon": Icons.web,
       "completed": false,
     },
     {
       "title": "Backend Development",
-      "description": "Databases, APIs, and backend frameworks (Node.js, Django, etc.).",
+      "description":
+          "Databases, APIs, and backend frameworks (Node.js, Django, etc.).",
       "icon": Icons.storage,
       "completed": false,
     },
     {
       "title": "Full Stack Development",
-      "description": "Combine frontend & backend skills to build complete applications.",
+      "description":
+          "Combine frontend & backend skills to build complete applications.",
       "icon": Icons.layers,
       "completed": false,
     },
     {
       "title": "DevOps & Deployment",
-      "description": "CI/CD, cloud hosting, Docker, Kubernetes, and automation.",
+      "description":
+          "CI/CD, cloud hosting, Docker, Kubernetes, and automation.",
       "icon": Icons.cloud,
       "completed": false,
     },
@@ -59,8 +64,8 @@ class _SoftwareDevelopmentRoadmapScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Software Development Roadmap"),
-        backgroundColor: Colors.blueAccent,
+        title: Text("Software Development"),
+        backgroundColor: Color.fromRGBO(42, 100, 137, 1),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -71,8 +76,6 @@ class _SoftwareDevelopmentRoadmapScreenState
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/software_dev.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "Your Path to Becoming a Developer 💻",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -88,7 +91,7 @@ class _SoftwareDevelopmentRoadmapScreenState
             ),
             SizedBox(height: 20),
 
-            // Progress Bar
+            //! Progress Bar
             Text(
               "Progress: $completedSteps / $totalSteps Steps Completed",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -97,12 +100,12 @@ class _SoftwareDevelopmentRoadmapScreenState
             LinearProgressIndicator(
               value: progress,
               backgroundColor: Colors.grey[300],
-              color: Colors.blueAccent,
+              color: Color.fromRGBO(18, 76, 113, 1),
               minHeight: 8,
             ),
             SizedBox(height: 20),
 
-            // Roadmap Steps
+            //! Roadmap Steps
             Expanded(
               child: ListView.builder(
                 itemCount: roadmapSteps.length,
@@ -117,7 +120,7 @@ class _SoftwareDevelopmentRoadmapScreenState
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.green
+                            ? Color.fromRGBO(18, 76, 113, 1)
                             : Colors.grey,
                       ),
                       title: Text(
@@ -133,7 +136,7 @@ class _SoftwareDevelopmentRoadmapScreenState
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.green
+                            ? Color.fromRGBO(18, 76, 113, 1)
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -148,29 +151,44 @@ class _SoftwareDevelopmentRoadmapScreenState
               ),
             ),
 
-            // Start Learning Button
+            //! Start Learning Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content:
-                      Text("Enrolled in Software Development Learning Path! 🚀"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.blueAccent,
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           ElevatedButton(
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        "Enrolled in Software Development Learning Path! 🚀",
+      ),
+    ));
+    // Navigate to PopularCoursesScreen with 'Software Development' category
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'Software Development',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Color.fromRGBO(42, 100, 137, 1),
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+)
+
           ],
         ),
       ),

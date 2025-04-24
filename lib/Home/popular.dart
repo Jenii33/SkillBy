@@ -1,38 +1,48 @@
+import 'package:firebase_test/Home/video.dart';
 import 'package:flutter/material.dart';
-import 'bookmark.dart'; // Import the bookmark screen
+import 'bookmark.dart';
 
-// Global List to Store Bookmarked Courses
+//! Global List to Store Bookmarked Courses
 List<Map<String, dynamic>> bookmarkedCourses = [];
 
 class PopularCoursesScreen extends StatefulWidget {
+  final String selectedCategory; // Accept category as a parameter
+
+  PopularCoursesScreen({required this.selectedCategory});
   @override
   _PopularCoursesScreenState createState() => _PopularCoursesScreenState();
 }
 
 class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
-   List<String> categories = [
+  List<String> categories = [
     "All",
     "Graphic Design",
-    "Information Technology",
+    "IT",
+    "Software Development",
     "IOS",
     "Python",
     "DevOps",
-    "Artificial Intelligence",
+    "php",
     ".Net",
     "Full Stack",
-    "Application Development"
+    "Machine Learning",
+    "Android",
+    "Java",
+    "Web Development",
+    "Marketing",
   ];
   String selectedCategory = "All";
 
   List<Map<String, dynamic>> courses = [
-     {
+    {
       'category': 'Graphic Design',
       'title': 'Graphic Design Advanced',
       'price': '\$28',
       'oldPrice': '\$42',
       'rating': 4.2,
       'students': '7830 Std',
-      'bookmarked': true,
+      'bookmarked': false,
+      'videoPath': 'assets/videos/g1.mp4',
     },
     {
       'category': 'Graphic Design',
@@ -42,6 +52,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 3.9,
       'students': '12680 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/g2.mp4',
     },
     {
       'category': 'Marketing',
@@ -50,7 +61,8 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'oldPrice': '\$41',
       'rating': 4.2,
       'students': '990 Std',
-      'bookmarked': true,
+      'bookmarked': false,
+      'videoPath': 'assets/videos/m1.mp4',
     },
     {
       'category': 'Web Development',
@@ -59,16 +71,48 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'oldPrice': '\$71',
       'rating': 4.9,
       'students': '14580 Std',
-      'bookmarked': true,
+      'bookmarked': false,
+      'videoPath': 'assets/videos/w1.mp4',
     },
     {
-      'category': 'Information Technology',
+      'category': 'Software Development',
+      'title': 'Software Concepts',
+      'price': '\$56',
+      'oldPrice': '\$71',
+      'rating': 4.9,
+      'students': '14580 Std',
+      'bookmarked': false,
+      'videoPath': 'assets/videos/s1.mp4',
+    },
+    {
+      'category': 'Java',
+      'title': 'Js Scripting',
+      'price': '\$56',
+      'oldPrice': '\$71',
+      'rating': 4.4,
+      'students': '14580 Std',
+      'bookmarked': false,
+      'videoPath': 'assets/videos/java1.mp4',
+    },
+    {
+      'category': 'IT',
       'title': 'Database Management System',
       'price': '\$45',
       'oldPrice': '\$59',
       'rating': 4.6,
       'students': '45356 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/i1.mp4',
+    },
+    {
+      'category': 'Java',
+      'title': 'Java Content',
+      'price': '\$56',
+      'oldPrice': '\$71',
+      'rating': 4.9,
+      'students': '1032 Std',
+      'bookmarked': false,
+      'videoPath': 'assets/videos/java2.mp4',
     },
     {
       'category': 'Application Development',
@@ -78,6 +122,17 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.0,
       'students': '12680 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/ap1.mp4',
+    },
+    {
+      'category': 'php',
+      'title': 'Script writing',
+      'price': '\$30',
+      'oldPrice': '\$35',
+      'rating': 4.1,
+      'students': '52341 Std',
+      'bookmarked': false,
+      'videoPath': 'assets/videos/php1.mp4',
     },
     {
       'category': 'Python',
@@ -87,6 +142,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.5,
       'students': '9850 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/p1.mp4',
     },
     {
       'category': 'IOS',
@@ -96,6 +152,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.3,
       'students': '12436 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/io1.mp4',
     },
     {
       'category': 'Machine Learning',
@@ -105,15 +162,17 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.2,
       'students': '15243 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/ml1.mp4',
     },
     {
-      'category': 'Artificial Intelligence',
+      'category': 'Android',
       'title': 'Introduction To NLP',
       'price': '\$37',
       'oldPrice': '\$41',
       'rating': 4.6,
       'students': '990 Std',
-      'bookmarked': true,
+      'bookmarked': false,
+      'videoPath': 'assets/videos/an1.mp4',
     },
     {
       'category': '.Net',
@@ -123,6 +182,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.1,
       'students': '4231 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/net1.mp4',
     },
     {
       'category': 'Full Stack',
@@ -132,6 +192,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.3,
       'students': '32420 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/f1.mp4',
     },
     {
       'category': 'DevOps',
@@ -141,6 +202,7 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 4.1,
       'students': '1459 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/dev1.mp4',
     },
     {
       'category': '.Net',
@@ -150,15 +212,17 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
       'rating': 3.8,
       'students': '53324 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/net2.mp4',
     },
     {
       'category': 'Python',
-      'title': 'Exception Handling',
-      'price': '\$40',
-      'oldPrice': '\$52',
-      'rating': 4.6,
-      'students': '5423 Std',
+      'title': 'Introduction To Python',
+      'price': '\$45',
+      'oldPrice': '\$60',
+      'rating': 4.5,
+      'students': '9850 Std',
       'bookmarked': false,
+      'videoPath': 'assets/videos/p2.mp4', // ✅ NEW
     },
   ];
   Color c1 = Color.fromRGBO(7, 45, 68, 1);
@@ -178,6 +242,11 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    selectedCategory = widget.selectedCategory;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -199,7 +268,8 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => BookmarkScreen())); // Open Bookmark Screen
+                      builder: (context) =>
+                          BookmarkScreen())); // Open Bookmark Screen
             },
           )
         ],
@@ -266,18 +336,26 @@ class _PopularCoursesScreenState extends State<PopularCoursesScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Video Placeholder
-                        Container(
-                          width: 100,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Icon(Icons.play_circle_outline,
-                                size: 40, color: Colors.grey),
-                          ),
-                        ),
+                        courses[index]['videoPath'] != null
+                            ? SizedBox(
+                                width: 100,
+                                height: 80,
+                                child: VideoPreview(
+                                    assetPath: courses[index]['videoPath']),
+                              )
+                            : Container(
+                                width: 100,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.black12,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.play_circle_outline,
+                                      size: 40, color: Colors.grey),
+                                ),
+                              ),
+
                         SizedBox(width: 10),
 
                         // Course Details

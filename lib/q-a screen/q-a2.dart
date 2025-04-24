@@ -1,4 +1,3 @@
-import 'package:firebase_test/medical%20screen/first.dart';
 import 'package:firebase_test/q-a%20screen/q-a.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -79,11 +78,11 @@ class _quu2State extends State<quu2> {
               onTap: () {
                 if (selectedOption != null) {
                   if (selectedOption == "Medical") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => First(),
-                        ));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => First(),
+                    //     ));
                   } else if (selectedOption == "Engineering") {
                     Navigator.push(
                         context,

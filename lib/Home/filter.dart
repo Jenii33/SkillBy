@@ -8,12 +8,12 @@ class FilterScreen extends StatefulWidget {
 class _FilterScreenState extends State<FilterScreen> {
   // Subcategories
   Map<String, bool> subCategories = {
-    '3D Design': false,
+    'Python': false,
     'Web Development': false,
-    '3D Animation': false,
+    'Java': false,
     'Graphic Design': false,
-    'SEO & Marketing': false,
-    'Arts & Humanities': false,
+    'Marketing': false,
+    'Android': false,
   };
 
   // Levels
@@ -46,7 +46,7 @@ class _FilterScreenState extends State<FilterScreen> {
     '3.0 & Up Above': false,
   };
 
-  // Video Durations
+  // Video Durationsw
   Map<String, bool> durations = {
     '0-2 Hours': false,
     '2-4 Hours': false,

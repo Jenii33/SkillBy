@@ -13,22 +13,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
+   String? selectedCategory; 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   String? selectedCourse;
+    String? selectedCategory;
+    
 
   List<String> courses = [
     "Software Development",
-    "SEO & Marketing",
+    "Marketing",
     "Graphic Design",
     "Information Technology",
     "IOS ",
     "PHP",
     "Python",
-    "Java"
+    "Java",
         "Android",
     "DevOps",
     ".Net",
@@ -46,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Sample category list
   final List<String> _categories = [
     "Software Development",
-    "SEO & Marketing",
+    " Marketing",
     "Graphic Design",
     "Information Technology",
     "IOS ",
@@ -123,7 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 12, color: c2.withOpacity(0.7))),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => FilterScreen(),));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FilterScreen(),
+                            ));
                       },
                       child: Container(
                         width: 40,
@@ -139,53 +146,53 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 14, color: c2.withOpacity(0.7))),
                 SizedBox(height: 40),
                 DropdownButtonFormField<String>(
-  decoration: InputDecoration(
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: c3, width: 2),
-    ),
-    labelText: "Select a Course",
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-    ),
-    filled: true,
-    fillColor: Colors.grey[200],
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: c3, width: 2),
+                    ),
+                    labelText: "Select a Course",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                  dropdownColor: Colors.blueGrey[50],
+                  value: selectedCourse,
+                  hint: Text("Choose your course"),
+                  items: courses.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String course = entry.value;
+
+                    return DropdownMenuItem(
+                      value: course,
+                      child: Text(
+                        course,
+                        style: TextStyle(
+                          color: c1,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                 onChanged: (String? newValue) {
+  setState(() {
+    selectedCategory = newValue!;  // Save the selected value
+  });
+  Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => Category(selectedCourse: '',)// Pass the selected course here
   ),
-  dropdownColor: Colors.blueGrey[50], 
-  value: selectedCourse,
-  hint: Text("Choose your course"),
-  items: courses.asMap().entries.map((entry) {
-    int index = entry.key;
-    String course = entry.value;
+);
 
-    return DropdownMenuItem(
-      value: course,
-      child: Text(
-        course,
-        style: TextStyle(
-          color: c1,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }).toList(),
-  onChanged: (value) {
-    setState(() {
-      selectedCourse = value;
-    });
+}
 
-    // Navigate to PopularCoursesScreen with the selected course category
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Popularin(selectedCategory: value!),
-      ),
-    );
-  },
-),
+                ),
 
                 SizedBox(height: 20),
                 SizedBox(
-                  height: 150,
+                  height: 170,
                   child: PageView(
                     controller: _pageController,
                     children: [
@@ -241,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Category(),
+                              builder: (context) => Category(selectedCourse: '',),
                             ));
                       },
                     )
@@ -294,7 +301,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PopularCoursesScreen(),
+                              builder: (context) => PopularCoursesScreen(
+                                selectedCategory: '',
+                              ),
                             ));
                       },
                     )
@@ -378,9 +387,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontSize: 14,
                                           ),
                                         ),
-                                        SizedBox(width: 5),
+                                        SizedBox(width: 3),
                                         Text("|"),
-                                        SizedBox(width: 5),
+                                        SizedBox(width: 3),
 
                                         // Rating
                                         Icon(Icons.star,

@@ -15,19 +15,22 @@ import 'package:flutter/material.dart';
 import 'categories/software.dart';
 
 class Category extends StatefulWidget {
+   String? selectedCategory; 
+   late final String? selectedCourse;
+    Category({required this.selectedCourse}); 
   @override
   State<Category> createState() => _CategoryState();
-}
-class _CategoryState extends State<Category> {
+}  
+ class _CategoryState extends State<Category> {
   final List<Map<String, dynamic>> categories = [
     {'name': 'Software Development', 'icon': 'assets/images/software.png','screen': SoftwareDevelopmentRoadmapScreen()},
-    {'name': 'Graphic Design', 'icon': 'assets/images/graphic.png','screen': GraphicDesignRoadmapScreen()},
-    {'name': 'Web Development', 'icon': 'assets/images/web.png','screen': WebDevelopmentRoadmapScreen()},
-    {'name': 'SEO & Marketing', 'icon': 'assets/images/seo.png','screen': SeoMarketingRoadmapScreen()},
+    {'name': 'Graphic Design', 'icon':'assets/images/graphic.png','screen': GraphicDesignRoadmapScreen()},
+    {'name': 'Web Development', 'icon':'assets/images/web.png','screen': WebDevelopmentRoadmapScreen()},
+    {'name': 'SEO & Marketing', 'icon':'assets/images/seo.png','screen': SeoMarketingRoadmapScreen()},
     {'name': 'Information Technology', 'icon': 'assets/images/IT.png','screen': ItRoadmapScreen()},
-    {'name': 'Android', 'icon': 'assets/images/android.png','screen': AndroidRoadmapScreen()},
+    {'name': 'Android', 'icon':'assets/images/android.png','screen': AndroidRoadmapScreen()},
     {'name': 'PHP', 'icon': 'assets/images/php.png','screen': PHPRoadmapScreen()},
-    {'name': 'IOS', 'icon': 'assets/images/ios.png','screen': IOSRoadmapScreen()},
+    {'name': 'IOS', 'icon': 'assets/images/ios.png','screen': IOSroadmap()},
     {'name': 'Python', 'icon': 'assets/images/python.png','screen': PythonRoadmapScreen()},
     {'name': 'Java', 'icon': 'assets/images/java.png','screen': JavaRoadmapScreen()},
     {'name': 'DevOps', 'icon': 'assets/images/devops.png','screen': DevOpsRoadmapScreen()},
@@ -35,7 +38,6 @@ class _CategoryState extends State<Category> {
     {'name': 'Machine Learning', 'icon': 'assets/images/ml.png','screen': MachineLearningRoadmapScreen()},
     {'name': 'Full Stack', 'icon': 'assets/images/full.png','screen': FullStackRoadmapScreen()},
   ];
-
   Color c1 = Color.fromRGBO(7, 45, 68, 1);
   Color c2 = Color.fromRGBO(6, 68, 107, 1);
 
@@ -67,7 +69,7 @@ class _CategoryState extends State<Category> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                // Navigate to corresponding course screen
+                //! Navigate to corresponding course screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => categories[index]['screen']),

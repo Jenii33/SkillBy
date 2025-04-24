@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_test/Home/bookmark.dart';
+import 'package:firebase_test/Home/categories/dev.dart';
 import 'package:firebase_test/Home/category.dart';
 import 'package:firebase_test/Home/home.dart';
 import 'package:firebase_test/Home/search.dart';
@@ -32,9 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: splash(),
+      home: HomeScreen(),
     );
   }
 }
-
-

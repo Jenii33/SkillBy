@@ -20,6 +20,7 @@ class _Screen1State extends State<Screen1> {
   final List<String> descriptions = [
     "We Provide Online Classes and Pre Recorded\nLectures.!",
     "Book or Save the Lectures for Future",
+    
     "Analyse your scores and Track your results"
   ];
 

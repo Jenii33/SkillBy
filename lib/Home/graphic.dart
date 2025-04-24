@@ -78,10 +78,12 @@ class _GraphicState extends State<Graphic> {
         ),
         elevation: 0,
         leading: IconButton(
-          icon: InkWell(child: Icon(Icons.arrow_back, color: c1),
-          onTap: () {
-            Navigator.pop(context);
-          },),
+          icon: InkWell(
+            child: Icon(Icons.arrow_back, color: c1),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
           onPressed: () {},
         ),
       ),
@@ -161,7 +163,8 @@ class SectionTile extends StatelessWidget {
               "${section.number.toString().padLeft(2, '0')} - ${section.title}",
               style: TextStyle(fontWeight: FontWeight.bold, color: c2),
             ),
-            Text(section.duration,
+            Text("\n",
+                semanticsLabel: section.duration,
                 style: TextStyle(color: c3, fontWeight: FontWeight.bold)),
           ],
         ),

@@ -1,15 +1,19 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class GraphicDesignRoadmapScreen extends StatefulWidget {
   @override
-  _GraphicDesignRoadmapScreenState createState() => _GraphicDesignRoadmapScreenState();
+  _GraphicDesignRoadmapScreenState createState() =>
+      _GraphicDesignRoadmapScreenState();
 }
 
-class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen> {
+class _GraphicDesignRoadmapScreenState
+    extends State<GraphicDesignRoadmapScreen> {
   List<Map<String, dynamic>> roadmapSteps = [
     {
       "title": "Introduction to Graphic Design",
-      "description": "Learn the fundamentals of design, color theory, and typography.",
+      "description":
+          "Learn the fundamentals of design, color theory, and typography.",
       "icon": Icons.brush,
       "completed": true,
     },
@@ -27,7 +31,8 @@ class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen>
     },
     {
       "title": "UI/UX & Web Design",
-      "description": "Understand user experience, wireframing, and prototyping.",
+      "description":
+          "Understand user experience, wireframing, and prototyping.",
       "icon": Icons.web,
       "completed": false,
     },
@@ -39,7 +44,8 @@ class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen>
     },
     {
       "title": "Motion Graphics & Video Editing",
-      "description": "Learn animation and video editing with After Effects & Premiere Pro.",
+      "description":
+          "Learn animation and video editing with After Effects & Premiere Pro.",
       "icon": Icons.movie,
       "completed": false,
     },
@@ -57,14 +63,23 @@ class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen>
     },
     {
       "title": "Landing High-Paying Clients",
-      "description": "Learn how to market your skills and get high-paying projects.",
+      "description":
+          "Learn how to market your skills and get high-paying projects.",
       "icon": Icons.attach_money,
       "completed": false,
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completedSteps = getCompletedSteps();
+    int totalSteps = roadmapSteps.length;
+    double progress = completedSteps / totalSteps;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Graphic Design Roadmap"),
@@ -75,12 +90,10 @@ class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Course Overview
+            // Header Section
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/graphic_design.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "Graphic Design Learning Path 🎨",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -96,7 +109,21 @@ class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen>
             ),
             SizedBox(height: 20),
 
-            // Roadmap Steps
+            //! Progress Bar
+            Text(
+              "Progress: $completedSteps / $totalSteps Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.grey[300],
+              color: Colors.blueGrey[900],
+              minHeight: 8,
+            ),
+            SizedBox(height: 20),
+
+            //! Roadmap Steps
             Expanded(
               child: ListView.builder(
                 itemCount: roadmapSteps.length,
@@ -142,29 +169,43 @@ class _GraphicDesignRoadmapScreenState extends State<GraphicDesignRoadmapScreen>
               ),
             ),
 
-            // Enroll Button
+            //! Enroll Button
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                // Action to enroll in the course
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in Graphic Design Course!"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.blueGrey[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in Graphic Design Course! 🎨"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'Graphic Design',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Colors.blueGrey[900],
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+)
+
           ],
         ),
       ),

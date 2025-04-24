@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class MachineLearningRoadmapScreen extends StatefulWidget {
@@ -17,7 +18,8 @@ class _MachineLearningRoadmapScreenState
     },
     {
       "title": "Probability & Statistics",
-      "description": "Understand probability distributions, Bayes theorem, and more.",
+      "description":
+          "Understand probability distributions, Bayes theorem, and more.",
       "icon": Icons.bar_chart,
       "completed": false,
     },
@@ -29,7 +31,8 @@ class _MachineLearningRoadmapScreenState
     },
     {
       "title": "Python Basics & Data Handling",
-      "description": "Master Python, NumPy, and Pandas for ML data manipulation.",
+      "description":
+          "Master Python, NumPy, and Pandas for ML data manipulation.",
       "icon": Icons.code,
       "completed": false,
     },
@@ -47,7 +50,8 @@ class _MachineLearningRoadmapScreenState
     },
     {
       "title": "Neural Networks & Deep Learning",
-      "description": "Study artificial neurons and deep learning architectures.",
+      "description":
+          "Study artificial neurons and deep learning architectures.",
       "icon": Icons.memory,
       "completed": false,
     },
@@ -65,18 +69,28 @@ class _MachineLearningRoadmapScreenState
     },
     {
       "title": "Model Deployment & MLOps",
-      "description": "Deploy ML models using Flask, FastAPI, and cloud services.",
+      "description":
+          "Deploy ML models using Flask, FastAPI, and cloud services.",
       "icon": Icons.cloud_upload,
       "completed": false,
     },
   ];
 
+  // Function to calculate the progress
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Machine Learning Roadmap"),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Color.fromARGB(255, 218, 137, 44),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -87,8 +101,6 @@ class _MachineLearningRoadmapScreenState
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/machine_learning.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "Machine Learning Roadmap 🤖",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -101,6 +113,20 @@ class _MachineLearningRoadmapScreenState
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20),
+
+            // Progress Bar
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Color.fromARGB(255, 192, 113, 22),
             ),
             SizedBox(height: 20),
 
@@ -119,7 +145,7 @@ class _MachineLearningRoadmapScreenState
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.deepPurple
+                            ? Color.fromARGB(255, 218, 137, 44)
                             : Colors.grey,
                       ),
                       title: Text(
@@ -135,7 +161,7 @@ class _MachineLearningRoadmapScreenState
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.deepPurple
+                            ? Color.fromARGB(255, 218, 137, 44)
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -153,25 +179,38 @@ class _MachineLearningRoadmapScreenState
             // Enroll Button
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in ML Learning Path! 🤖"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.deepPurple,
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Enrolled in ML Learning Path! 🤖")),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'ML',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: const Color.fromARGB(255, 218, 137, 44),
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

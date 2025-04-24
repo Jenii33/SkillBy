@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class SeoMarketingRoadmapScreen extends StatefulWidget {
@@ -82,8 +83,16 @@ class _SeoMarketingRoadmapScreenState extends State<SeoMarketingRoadmapScreen> {
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completedSteps = getCompletedSteps();
+    int totalSteps = roadmapSteps.length;
+    double progress = completedSteps / totalSteps;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("SEO & Marketing Roadmap"),
@@ -98,8 +107,6 @@ class _SeoMarketingRoadmapScreenState extends State<SeoMarketingRoadmapScreen> {
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/seo.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "SEO & Marketing Learning Path 📈",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -112,6 +119,20 @@ class _SeoMarketingRoadmapScreenState extends State<SeoMarketingRoadmapScreen> {
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20),
+
+            // Progress Bar
+            Text(
+              "Progress: $completedSteps / $totalSteps Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.grey[300],
+              color: Colors.teal[800],
+              minHeight: 8,
             ),
             SizedBox(height: 20),
 
@@ -130,7 +151,7 @@ class _SeoMarketingRoadmapScreenState extends State<SeoMarketingRoadmapScreen> {
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.teal
+                            ? Colors.teal.shade900
                             : Colors.grey,
                       ),
                       title: Text(
@@ -146,7 +167,7 @@ class _SeoMarketingRoadmapScreenState extends State<SeoMarketingRoadmapScreen> {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.teal
+                            ? Colors.teal.shade900
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -163,26 +184,41 @@ class _SeoMarketingRoadmapScreenState extends State<SeoMarketingRoadmapScreen> {
 
             // Start Learning Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in SEO & Marketing Learning Path! 📈"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.teal[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+          ElevatedButton(
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in SEO & Marketing Learning Path! 📈"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'SEO & Marketing',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Colors.teal[900],
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

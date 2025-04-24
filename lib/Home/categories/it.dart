@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class ItRoadmapScreen extends StatefulWidget {
@@ -9,13 +10,15 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
   List<Map<String, dynamic>> roadmapSteps = [
     {
       "title": "Introduction to Computers & OS",
-      "description": "Learn the basics of computer systems and operating systems.",
+      "description":
+          "Learn the basics of computer systems and operating systems.",
       "icon": Icons.computer,
       "completed": false,
     },
     {
       "title": "Basic Networking Concepts",
-      "description": "Understand LAN, WAN, IP Addressing, and how the internet works.",
+      "description":
+          "Understand LAN, WAN, IP Addressing, and how the internet works.",
       "icon": Icons.wifi,
       "completed": false,
     },
@@ -81,18 +84,27 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
     },
     {
       "title": "Career Paths in IT",
-      "description": "Choose a career: Cloud Engineer, IT Manager, Security Analyst.",
+      "description":
+          "Choose a career: Cloud Engineer, IT Manager, Security Analyst.",
       "icon": Icons.work,
       "completed": false,
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("IT Roadmap"),
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: Color.fromARGB(255, 37, 67, 83),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -103,8 +115,6 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/IT.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "Information Technology Learning Path 💻",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -117,6 +127,20 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20),
+
+            // Progress Section
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Color.fromARGB(255, 37, 67, 83),
             ),
             SizedBox(height: 20),
 
@@ -135,7 +159,7 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.blueGrey[900]
+                            ? Color.fromARGB(255, 30, 67, 87)
                             : Colors.grey,
                       ),
                       title: Text(
@@ -151,7 +175,7 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.blueGrey[900]
+                            ? Color.fromARGB(255, 37, 67, 87)
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -168,27 +192,41 @@ class _ItRoadmapScreenState extends State<ItRoadmapScreen> {
 
             // Enroll Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Action to enroll in the course
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in IT Learning Path!"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.blueGrey[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           ElevatedButton(
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in IT Learning Path!"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'IT',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: const Color.fromARGB(255, 37, 67, 83),
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

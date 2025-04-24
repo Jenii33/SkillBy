@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class JavaRoadmapScreen extends StatefulWidget {
@@ -27,7 +28,8 @@ class _JavaRoadmapScreenState extends State<JavaRoadmapScreen> {
     },
     {
       "title": "Exception Handling & Debugging",
-      "description": "Handle errors efficiently using try-catch and debugging tools.",
+      "description":
+          "Handle errors efficiently using try-catch and debugging tools.",
       "icon": Icons.bug_report,
       "completed": false,
     },
@@ -75,8 +77,16 @@ class _JavaRoadmapScreenState extends State<JavaRoadmapScreen> {
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Java Course Roadmap"),
@@ -105,6 +115,20 @@ class _JavaRoadmapScreenState extends State<JavaRoadmapScreen> {
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20),
+
+            // Progress Bar
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Colors.deepOrange,
             ),
             SizedBox(height: 20),
 
@@ -156,26 +180,41 @@ class _JavaRoadmapScreenState extends State<JavaRoadmapScreen> {
 
             // Enroll Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in Java Learning Path! ☕"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.deepOrange,
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           ElevatedButton(
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in Java Learning Path! ☕"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'Java',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Colors.deepOrange,
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

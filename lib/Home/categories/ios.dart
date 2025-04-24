@@ -1,116 +1,121 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
-class IOSRoadmapScreen extends StatefulWidget {
+class IOSroadmap extends StatefulWidget {
   @override
-  _IOSRoadmapScreenState createState() => _IOSRoadmapScreenState();
+  _IOSroadmapState createState() => _IOSroadmapState();
 }
 
-class _IOSRoadmapScreenState extends State<IOSRoadmapScreen> {
+class _IOSroadmapState extends State<IOSroadmap> {
   List<Map<String, dynamic>> roadmapSteps = [
     {
-      "title": "Introduction to iOS & Swift",
-      "description": "Learn about iOS development and the Swift programming language.",
-      "icon": Icons.apple,
-      "completed": true,
-    },
-    {
-      "title": "Setting Up Xcode & iOS Simulator",
-      "description": "Install and configure Xcode and the iOS simulator for development.",
-      "icon": Icons.computer,
-      "completed": false,
-    },
-    {
-      "title": "Swift Basics: Variables & Functions",
-      "description": "Understand Swift syntax, data types, and functions.",
+      "title": "Swift Fundamentals",
+      "description": "Master the basics of Swift programming language.",
       "icon": Icons.code,
       "completed": false,
     },
     {
-      "title": "Working with UI & Auto Layout",
-      "description": "Design UI using Storyboards and implement responsive layouts.",
-      "icon": Icons.design_services,
+      "title": "Xcode & Interface Builder",
+      "description":
+          "Learn to use Xcode and build UIs visually with Storyboards.",
+      "icon": Icons.desktop_mac,
       "completed": false,
     },
     {
-      "title": "Navigation & View Controllers",
-      "description": "Learn about navigation controllers and multiple screens.",
-      "icon": Icons.layers,
+      "title": "SwiftUI Basics",
+      "description": "Build declarative UIs using SwiftUI.",
+      "icon": Icons.view_quilt,
       "completed": false,
     },
     {
-      "title": "Networking & API Calls",
-      "description": "Work with REST APIs using Alamofire and URLSession.",
-      "icon": Icons.cloud_download,
+      "title": "State Management & Navigation",
+      "description": "Manage app state and navigate between views in SwiftUI.",
+      "icon": Icons.compare_arrows,
       "completed": false,
     },
     {
-      "title": "Core Data & SQLite",
-      "description": "Implement local database storage with Core Data and SQLite.",
-      "icon": Icons.storage,
+      "title": "Networking & API Integration",
+      "description": "Fetch data using URLSession and display API results.",
+      "icon": Icons.network_check,
       "completed": false,
     },
     {
-      "title": "Authentication & Firebase",
-      "description": "Handle user authentication with Firebase and OAuth.",
-      "icon": Icons.lock,
+      "title": "Core Data & Persistence",
+      "description":
+          "Store and retrieve data locally using Core Data and UserDefaults.",
+      "icon": Icons.save,
       "completed": false,
     },
     {
-      "title": "Push Notifications & Messaging",
-      "description": "Enable push notifications and real-time messaging in your app.",
-      "icon": Icons.notifications,
+      "title": "Notifications & Background Tasks",
+      "description":
+          "Implement push/local notifications and background operations.",
+      "icon": Icons.notifications_active,
       "completed": false,
     },
     {
-      "title": "Advanced UI & Animations",
-      "description": "Build smooth animations and custom UI effects.",
-      "icon": Icons.animation,
-      "completed": false,
-    },
-    {
-      "title": "MVVM Architecture & Best Practices",
-      "description": "Structure your app using the MVVM architecture pattern.",
-      "icon": Icons.architecture,
-      "completed": false,
-    },
-    {
-      "title": "Publishing to the App Store",
-      "description": "Prepare and publish your app on the App Store.",
-      "icon": Icons.publish,
+      "title": "Testing & App Store Deployment",
+      "description": "Test, debug, and deploy apps to the App Store.",
+      "icon": Icons.cloud_upload,
       "completed": false,
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("iOS Development Roadmap"),
+        title: Text(
+          "IT Roadmap",
+          style: TextStyle(color: Colors.grey),
+        ),
         backgroundColor: Colors.black,
+        iconTheme: IconThemeData(
+            color: Colors.grey), // This changes the back button color
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Course Overview
+            // Header Section
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/ios.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
-                    "iOS Development Learning Path 🍏",
+                    "iOS Development Learning Path 📱",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Master iOS App Development from Beginner to Advanced!",
+                    "Start your journey in iOS with this roadmap!",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey),
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20),
+
+            // Progress Section
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Colors.black,
             ),
             SizedBox(height: 20),
 
@@ -164,10 +169,19 @@ class _IOSRoadmapScreenState extends State<IOSRoadmapScreen> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Action to enroll in the course
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in iOS Development Course!"),
-                ));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Enrolled in iOS Learning Path!"),
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PopularCoursesScreen(
+                      selectedCategory: 'IOS',
+                    ),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 12),
@@ -179,7 +193,11 @@ class _IOSRoadmapScreenState extends State<IOSRoadmapScreen> {
               child: Center(
                 child: Text(
                   "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class DotNetRoadmapScreen extends StatefulWidget {
@@ -15,7 +16,8 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
     },
     {
       "title": "Object-Oriented Programming in C#",
-      "description": "Master OOP concepts like classes, objects, and inheritance.",
+      "description":
+          "Master OOP concepts like classes, objects, and inheritance.",
       "icon": Icons.storage,
       "completed": false,
     },
@@ -69,12 +71,21 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
     },
   ];
 
+  // Function to calculate the progress
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(".NET Development Roadmap"),
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: const Color.fromARGB(255, 194, 37, 37),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -85,8 +96,6 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/dotnet.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     ".NET Developer Roadmap 💻",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -100,6 +109,19 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 20),
+
+            // Progress Bar
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+                value: progress,
+                minHeight: 8,
+                backgroundColor: Colors.grey[300],
+                color: Color.fromARGB(255, 190, 28, 28)),
             SizedBox(height: 20),
 
             // Roadmap Steps
@@ -117,7 +139,7 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.blueGrey[900]
+                            ? Color.fromARGB(255, 194, 37, 37)
                             : Colors.grey,
                       ),
                       title: Text(
@@ -133,7 +155,7 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.blueGrey[900]
+                            ? Color.fromARGB(255, 194, 37, 37)
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -148,28 +170,37 @@ class _DotNetRoadmapScreenState extends State<DotNetRoadmapScreen> {
               ),
             ),
 
-            // Start Learning Button
+            //! Start Learning Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in .NET Learning Path! 💻"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.blueGrey[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           // In the .NET Roadmap Screen (DotNetRoadmapScreen)
+ElevatedButton(
+  onPressed: () {
+    // Navigate to Popular Courses Screen and pass '.NET' as category
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(selectedCategory: '.Net'),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Color.fromARGB(255, 194, 37, 37),
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white),
+    ),
+  ),
+),
+
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class DevOpsRoadmapScreen extends StatefulWidget {
@@ -51,7 +52,8 @@ class _DevOpsRoadmapScreenState extends State<DevOpsRoadmapScreen> {
     },
     {
       "title": "CI/CD Pipelines",
-      "description": "Set up Continuous Integration & Deployment with Jenkins, GitHub Actions.",
+      "description":
+          "Set up Continuous Integration & Deployment with Jenkins, GitHub Actions.",
       "icon": Icons.sync,
       "completed": false,
     },
@@ -63,18 +65,32 @@ class _DevOpsRoadmapScreenState extends State<DevOpsRoadmapScreen> {
     },
     {
       "title": "Advanced DevOps & SRE",
-      "description": "Learn Hybrid & Multi-cloud, Security, and SRE best practices.",
+      "description":
+          "Learn Hybrid & Multi-cloud, Security, and SRE best practices.",
       "icon": Icons.security,
       "completed": false,
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("DevOps Course Roadmap"),
-        backgroundColor: Colors.deepPurple,
+        title: Text(
+          "DevOps",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color.fromARGB(255, 74, 177, 74),
+        iconTheme:
+            IconThemeData(color: Colors.black), // This makes AppBar icons grey
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -93,6 +109,20 @@ class _DevOpsRoadmapScreenState extends State<DevOpsRoadmapScreen> {
             ),
             SizedBox(height: 20),
 
+            // Progress Bar
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Color.fromARGB(255, 72, 186, 72),
+            ),
+            SizedBox(height: 20),
+
             // Roadmap Steps
             Expanded(
               child: ListView.builder(
@@ -108,7 +138,7 @@ class _DevOpsRoadmapScreenState extends State<DevOpsRoadmapScreen> {
                         roadmapSteps[index]['icon'],
                         size: 32,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.deepPurple
+                            ? Color.fromARGB(255, 74, 177, 74)
                             : Colors.grey,
                       ),
                       title: Text(
@@ -124,7 +154,7 @@ class _DevOpsRoadmapScreenState extends State<DevOpsRoadmapScreen> {
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         color: roadmapSteps[index]['completed']
-                            ? Colors.deepPurple
+                            ? Color.fromARGB(255, 74, 177, 74)
                             : Colors.grey,
                       ),
                       onTap: () {
@@ -141,27 +171,39 @@ class _DevOpsRoadmapScreenState extends State<DevOpsRoadmapScreen> {
 
             // Enroll Button
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Action to enroll in the course
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in DevOps Course!"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.deepPurple,
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           ElevatedButton(
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Enrolled in DevOps Course!")),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'DevOps',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Color.fromARGB(255, 74, 177, 74),
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),

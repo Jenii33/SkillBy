@@ -1,3 +1,4 @@
+import 'package:firebase_test/Home/popular.dart';
 import 'package:flutter/material.dart';
 
 class PHPRoadmapScreen extends StatefulWidget {
@@ -69,8 +70,16 @@ class _PHPRoadmapScreenState extends State<PHPRoadmapScreen> {
     },
   ];
 
+  int getCompletedSteps() {
+    return roadmapSteps.where((step) => step['completed']).length;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int completed = getCompletedSteps();
+    int total = roadmapSteps.length;
+    double progress = completed / total;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("PHP Development Roadmap"),
@@ -85,8 +94,6 @@ class _PHPRoadmapScreenState extends State<PHPRoadmapScreen> {
             Center(
               child: Column(
                 children: [
-                  Image.asset("assets/images/php.png", height: 150),
-                  SizedBox(height: 10),
                   Text(
                     "PHP Development Learning Path 🐘",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -99,6 +106,20 @@ class _PHPRoadmapScreenState extends State<PHPRoadmapScreen> {
                   ),
                 ],
               ),
+            ),
+            SizedBox(height: 20),
+
+            // Progress Section
+            Text(
+              "Progress: $completed / $total Steps Completed",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.grey[300],
+              color: Colors.blue[800],
             ),
             SizedBox(height: 20),
 
@@ -151,25 +172,40 @@ class _PHPRoadmapScreenState extends State<PHPRoadmapScreen> {
             // Start Learning Button
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Enrolled in PHP Learning Path! 🐘"),
-                ));
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                backgroundColor: Colors.blue[900],
-              ),
-              child: Center(
-                child: Text(
-                  "Start Learning Now",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+  onPressed: () {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Enrolled in PHP Learning Path! 🐘"),
+      ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PopularCoursesScreen(
+          selectedCategory: 'PHP',
+        ),
+      ),
+    );
+  },
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+    backgroundColor: Colors.blue[900],
+  ),
+  child: Center(
+    child: Text(
+      "Start Learning Now",
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    ),
+  ),
+),
+
           ],
         ),
       ),
